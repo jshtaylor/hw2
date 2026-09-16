@@ -19,13 +19,28 @@ TimeCode::TimeCode(const TimeCode& tc){
 	void SetHours(unsigned int hours){
 	// sets hours by directly~ changing
 	
+	t -= GetHours() * 3600;
+	t += hours * 3600;
+	
 }
 	void SetMinutes(unsigned int minutes){
 	// sets minutes same way
+	if(minutes > 59){
+		cout << "error: cannot use minutes greater than 59\n"; 
+		return;
+		}
+	t -= GetMinutes() * 60;
+	t += minutes;
+	
 	
 }
 	void SetSeconds(unsigned int seconds){
 	// sets second same way
+	if(seconds > 59){
+		cout << "error: cannot use seconds greater than 59\n";
+		}
+	t -= GetSeconds();
+	t += seconds;
 }
 	
 	void reset();//resets t
