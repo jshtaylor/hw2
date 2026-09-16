@@ -16,43 +16,21 @@ TimeCode::TimeCode(const TimeCode& tc){
 		//implement second constructor options
 		}
 		
-	void SetHours(unsigned int hours); // sets hours by directly~ changing T
-	void SetMinutes(unsigned int minutes); // sets minutes same way
-	void SetSeconds(unsigned int seconds);// sets second same way
+	void SetHours(unsigned int hours){
+	// sets hours by directly~ changing
+	
+}
+	void SetMinutes(unsigned int minutes){
+	// sets minutes same way
+	
+}
+	void SetSeconds(unsigned int seconds){
+	// sets second same way
+}
 	
 	void reset();//resets t
 	
-/*
-	unsigned int TimeCode::GetHours(){ 
-	// returns the hours divide by 60 twice, math is in getcomponenets
-		return hr;
-	
-	}
 
-	unsigned int TimeCode::GetMinutes(){
-	//divided by 60 mod 60, math is in getcomponenets
-		return min;
-	}
-	
-	unsigned int TimeCode::GetSeconds(){ 
-	// modulo 60 t, math is in getcomponenets
-		return sec;
-	}
-
-	long long unsigned int TimeCode::GetTimeCodeAsSeconds() { 
-		//returns T value
-		return t;
-		} 
-	
-	void TimeCode::GetComponents(unsigned int& hr, unsigned int& min, unsigned int& sec) {
-	// gets the components in their form
-		hr = t/3600;
-		min = (t/60)%60;
-		sec = t%60;
-		
-	}
-	//not certain if the math should be within the get componenets or the Get___ functions, the get___ having the math makes more sense as it can call the other functions and than assign the varibles within it, check with Novak later
-	*/
 unsigned int TimeCode::GetHours() const { 
 	return t / 3600; 
 }
