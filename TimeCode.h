@@ -1,9 +1,9 @@
-#indef TIMECODE_H
+#ifndef TIMECODE_H
 #define TIMECODE_H
 
 #include <iostream>
 
-using namespeace std;
+using namespace std;
 
 class TimeCode{
 	public:
