@@ -27,7 +27,7 @@ class TimeCode{
 		
 		string ToString() const;
 		
-		TimeCode operator+(const TimeCode& othetr) const;
+		TimeCode operator+(const TimeCode& other) const;
 		TimeCode operator-(const TimeCode& other) const;
 		TimeCode operator*(double a) const;
 		TimeCode operator/(double a)const;
