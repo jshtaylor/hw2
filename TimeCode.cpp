@@ -11,7 +11,6 @@ TimeCode::TimeCode(unsigned int hr, unsigned int min, long long unsigned int sec
 	 	
 TimeCode::TimeCode(const TimeCode& tc){
 	//implement second constructor options
-	//how to get/set t in the constructor, figure that out and find out how to refernce a priavte instance variable in the get functions
 	t = tc.t;
 }
 		
@@ -46,15 +45,18 @@ void TimeCode::SetSeconds(unsigned int seconds){
 	t = 0;
 }
 
-unsigned int TimeCode::GetHours() const { 
+unsigned int TimeCode::GetHours() const {
+	//same as diving by 60 twice 
 	return t/ 3600; 
 }
 
 unsigned int TimeCode::GetMinutes() const {
+	//converts to minutes and than removes all of them above 60, faster than doing divide and subtract by values
 	return (t/ 60) % 60;
 }
 
 unsigned int TimeCode::GetSeconds() const {
+	//converts to second by removing all of them above 60
 	return t% 60;
 }	
 

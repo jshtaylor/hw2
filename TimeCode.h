@@ -41,6 +41,7 @@ class TimeCode{
 		bool operator >(const TimeCode& other) const;
 		bool operator >=(const TimeCode& other) const;
 		
+		
 	private:
 		long long unsigned int t=0;
 	};
