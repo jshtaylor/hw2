@@ -22,33 +22,45 @@ vector<string> split(string line, char delim){
 }
 
 
-TimeCode parse_line(string line){
-//implement this to take a line from the file and return the time code from said line
+TimeCode parse_line(string line) {
     size_t firstQuote = line.find('"');
-    size_t secondQuote = line.find('"', firstQuote + 1); // find first and second quotes to simplify finding the time 
+    size_t secondQuote = line.find('"', firstQuote + 1);
 
+    // If quotes are missing, throw so main()'s catch block skips this line
     if (firstQuote == string::npos || secondQuote == string::npos) {
-        return TimeCode(0, 0, 0); // Handle malformed lines safely
+        throw invalid_argument("No quotes found in line");
     }
 
-    string dateTimeStr = line.substr(firstQuote + 1, secondQuote - firstQuote - 1); // gets a substring of the line
+    string dateTimeStr = line.substr(firstQuote + 1, secondQuote - firstQuote - 1);
+    vector<string> spaceParts = split(dateTimeStr, ' ');
 
-    vector<string> spaceParts = split(dateTimeStr, ' '); // splits that sub string into componenets
-
-    if (spaceParts.size() < 5) {
-        // size check for safety
-        return TimeCode(0, 0, 0);
+    string timeStr = "";
+    for (const string& part : spaceParts) {
+        if (part.find(':') != string::npos) {
+            timeStr = part;
+            break;
+        }
     }
 
-    string timeStr = spaceParts[4];// the time is index 4 of said line
+    // If no HH:MM format exists inside the quotes, throw
+    if (timeStr.empty()) {
+        throw invalid_argument("No timestamp with ':' found");
+    }
 
     vector<string> timeParts = split(timeStr, ':');
+    if (timeParts.size() < 2) {
+        throw invalid_argument("Invalid time string structure");
+    }
 
-    unsigned int hr = stoi(timeParts[0]); // convert into correct data type
-    unsigned int min = stoi(timeParts[1]); // convert into correct data type
-    unsigned long long sec = 0; // no seconds in the csv
+    try {
+        unsigned int hr = stoi(timeParts[0]);
+        unsigned int min = stoi(timeParts[1]);
+        unsigned long long sec = 0;
 
-    return TimeCode(hr, min, sec);
+        return TimeCode(hr, min, sec);
+    } catch (...) {
+        throw invalid_argument("stoi failed to parse integers");
+    }
 }
 
 
@@ -57,6 +69,7 @@ TimeCode parse_line(string line){
 int main(){
     string fileName{"Space_Corrected.csv"};
     ifstream input(fileName);
+    cout << "test one \n";
 
     if (!input.is_open()) {
         //handles issues with error opening file, likely if file is missing
@@ -73,18 +86,30 @@ int main(){
 
     while(getline(input,line)){
         if (line.empty()) continue;
+        try {
+            // parse_line returns a TimeCode object directly
+            TimeCode tc = parse_line(line); 
 
-        TimeCode tc = parse_line(line); // holds the timecode for each line iterated
-        totalSum = totalSum + tc; // adds that to the grandsum
-        count ++; // coint increments
+            // Both operations only execute if parse_line succeeds
+            totalSum = totalSum + tc; 
+            count++;
+        } catch (const invalid_argument&) {
+            // Skip bad/unparseable lines without updating sum or count
+            continue;
+        }
     }
 
     input.close();
 
+    cout << "file is read here \n";
+
     if (count > 0){
         TimeCode averageTime = totalSum / count;//should return an average of 12:7:56 based on the math numbers
-         int average = stoi(TimeCode::ToString(averageTime)); // need to fix this return type to be the correct type
-    }
+        cout << totalSum.ToString() << " / " << count << " = " << averageTime.ToString() << '\n' ;
+        cout <<  "As seconds " << totalSum.GetTimeCodeAsSeconds() << " / " << count << " = " << averageTime.GetTimeCodeAsSeconds();
+        return 1;
+        }
+    cout << "if statement didn't work \n";
 
 return 0;
 }
