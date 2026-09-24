@@ -5,4 +5,8 @@ debug:
 time:
 	g++ -Wall -O3 -g TimeCode.cpp
 clean:
-	rm -f timeCode
+	rm -f timeCode nasa paint
+nasa:
+	g++ -Wall -O3 -g NasaLaunchAnalysis.cpp TimeCode.cpp -o nasa
+paint:
+	g++ -Wall -O3 -g PaintDryTimer.cpp TimeCode.cpp -o paint
